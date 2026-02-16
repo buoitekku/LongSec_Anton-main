@@ -10,7 +10,7 @@
     "check": "tsc",
     "cms:migrate": "tsx scripts/migrate-content-to-sanity.ts",
     "db:push": "drizzle-kit push",
-    "vercel-build": "vite build"
+    "vercel-build": "vite build && npm --prefix cms install && npm --prefix cms run build && node scripts/copy-cms.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

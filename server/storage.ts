@@ -41,7 +41,7 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { users } = await import('@shared/schema');
     const { eq } = await import('drizzle-orm');
     
@@ -50,7 +50,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { users } = await import('@shared/schema');
     const { eq } = await import('drizzle-orm');
     
@@ -59,7 +59,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { users } = await import('@shared/schema');
     
     const [user] = await db
@@ -70,7 +70,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createContact(insertContact: InsertContact): Promise<Contact> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { contacts } = await import('@shared/schema');
     
     const [contact] = await db
@@ -86,14 +86,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getContacts(): Promise<Contact[]> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { contacts } = await import('@shared/schema');
     
     return await db.select().from(contacts);
   }
 
   async getBlogPosts(language?: string): Promise<BlogPost[]> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { blogPosts } = await import('@shared/schema');
     const { eq, and } = await import('drizzle-orm');
     
@@ -108,7 +108,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getBlogPost(slug: string, language?: string): Promise<BlogPost | undefined> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { blogPosts } = await import('@shared/schema');
     const { eq, and } = await import('drizzle-orm');
     
@@ -125,7 +125,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createBlogPost(insertPost: InsertBlogPost): Promise<BlogPost> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { blogPosts } = await import('@shared/schema');
     
     const [post] = await db
@@ -140,7 +140,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createConsultation(insertConsultation: InsertConsultation): Promise<Consultation> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { consultations } = await import('@shared/schema');
     
     const [consultation] = await db
@@ -157,7 +157,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getConsultations(): Promise<Consultation[]> {
-    const { db } = await import('./db');
+    const { db } = await import("./db.js");
     const { consultations } = await import('@shared/schema');
     
     return await db.select().from(consultations);
