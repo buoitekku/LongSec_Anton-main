@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(207, 40%, 20%);
+  --muted: hsl(210, 40%, 98%);
+  --muted-foreground: hsl(215, 16%, 47%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(207, 40%, 20%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(207, 40%, 20%);
+  --border: hsl(214, 32%, 91%);
+  --input: hsl(214, 32%, 91%);
+  --primary: hsl(207, 40%, 25%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(210, 40%, 96%);
+  --secondary-foreground: hsl(222, 47%, 11%);
+  --accent: hsl(28, 35%, 52%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(207, 40%, 20%);
+  --radius: 0.5rem;
+  --subtle-gray: hsl(210, 40%, 98%);
+  --success: hsl(142, 76%, 36%);
+  --warning: hsl(38, 92%, 50%);
+  --error: hsl(0, 84%, 60%);
+}
+
+.dark {
+  --background: hsl(220, 13%, 9%);
+  --foreground: hsl(210, 20%, 95%);
+  --muted: hsl(220, 13%, 15%);
+  --muted-foreground: hsl(215, 16%, 70%);
+  --popover: hsl(220, 13%, 12%);
+  --popover-foreground: hsl(210, 20%, 95%);
+  --card: hsl(220, 13%, 12%);
+  --card-foreground: hsl(210, 20%, 95%);
+  --border: hsl(220, 13%, 18%);
+  --input: hsl(220, 13%, 18%);
+  --primary: hsl(207, 40%, 35%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(220, 13%, 15%);
+  --secondary-foreground: hsl(210, 20%, 95%);
+  --accent: hsl(28, 35%, 60%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 63%, 45%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(220, 13%, 25%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .dragon-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(28, 35%, 52%, 0.1) 2px, transparent 2px),
+      radial-gradient(circle at 75% 75%, hsl(207, 40%, 25%, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  .gradient-border {
+    background: linear-gradient(45deg, hsl(207, 40%, 25%), hsl(28, 35%, 52%));
+    padding: 2px;
+    border-radius: 12px;
+  }
+  
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px hsl(207, 40%, 25%, 0.15);
+  }
+  
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: hsl(0, 0%, 100%, 0.9);
+  }
+  
+  .dark .glass-effect {
+    background: hsl(220, 13%, 9%, 0.95);
+    border-color: hsl(220, 13%, 18%);
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { 
+      opacity: 0; 
+      transform: translateY(20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+  
+  @keyframes slideUp {
+    from { 
+      opacity: 0; 
+      transform: translateY(40px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  /* Parallax scrolling smooth effect */
+  .parallax-container {
+    transform-style: preserve-3d;
+  }
+
+  .parallax-element {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Custom opacity classes for blurred logos */
+  .opacity-2 {
+    opacity: 0.02;
+  }
+
+  .opacity-3 {
+    opacity: 0.03;
+  }
+
+  .opacity-5 {
+    opacity: 0.05;
+  }
+
+  .opacity-8 {
+    opacity: 0.08;
+  }
+
+  .opacity-12 {
+    opacity: 0.12;
+  }
+
+  .opacity-15 {
+    opacity: 0.15;
+  }
+
+  .opacity-6 {
+    opacity: 0.06;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Performance optimization for parallax */
+  .parallax-bg {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  /* Custom blur effects for logo backgrounds */
+  .blur-subtle {
+    filter: blur(2px);
+  }
+  
+  .blur-gentle {
+    filter: blur(4px);
+  }
+  
+  .blur-soft {
+    filter: blur(8px);
+  }
+
+  /* Logo negative effect in dark mode */
+  .logo-image {
+    transition: filter 0.3s ease;
+  }
+
+  .dark .logo-image {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  .dark .logo-background {
+    filter: invert(1) hue-rotate(180deg) blur(4px);
+  }
+
+  /* Simple hover effects for cards */
+  .card-hover {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Page fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
