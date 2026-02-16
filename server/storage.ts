@@ -14,7 +14,7 @@ import {
   type InsertBlogPost,
   type Consultation,
   type InsertConsultation
-} from "@shared/schema";
+} from "../shared/schema.js";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -42,7 +42,7 @@ export interface IStorage {
 export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
     const { db } = await import("./db.js");
-    const { users } = await import('@shared/schema');
+    const { users } = await import('../shared/schema.js');
     const { eq } = await import('drizzle-orm');
     
     const [user] = await db.select().from(users).where(eq(users.id, id));
@@ -51,7 +51,7 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     const { db } = await import("./db.js");
-    const { users } = await import('@shared/schema');
+    const { users } = await import('../shared/schema.js');
     const { eq } = await import('drizzle-orm');
     
     const [user] = await db.select().from(users).where(eq(users.username, username));
@@ -60,7 +60,7 @@ export class DatabaseStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const { db } = await import("./db.js");
-    const { users } = await import('@shared/schema');
+    const { users } = await import('../shared/schema.js');
     
     const [user] = await db
       .insert(users)
@@ -71,7 +71,7 @@ export class DatabaseStorage implements IStorage {
 
   async createContact(insertContact: InsertContact): Promise<Contact> {
     const { db } = await import("./db.js");
-    const { contacts } = await import('@shared/schema');
+    const { contacts } = await import('../shared/schema.js');
     
     const [contact] = await db
       .insert(contacts)
@@ -87,14 +87,14 @@ export class DatabaseStorage implements IStorage {
 
   async getContacts(): Promise<Contact[]> {
     const { db } = await import("./db.js");
-    const { contacts } = await import('@shared/schema');
+    const { contacts } = await import('../shared/schema.js');
     
     return await db.select().from(contacts);
   }
 
   async getBlogPosts(language?: string): Promise<BlogPost[]> {
     const { db } = await import("./db.js");
-    const { blogPosts } = await import('@shared/schema');
+    const { blogPosts } = await import('../shared/schema.js');
     const { eq, and } = await import('drizzle-orm');
     
     if (language) {
@@ -109,7 +109,7 @@ export class DatabaseStorage implements IStorage {
 
   async getBlogPost(slug: string, language?: string): Promise<BlogPost | undefined> {
     const { db } = await import("./db.js");
-    const { blogPosts } = await import('@shared/schema');
+    const { blogPosts } = await import('../shared/schema.js');
     const { eq, and } = await import('drizzle-orm');
     
     if (language) {
@@ -126,7 +126,7 @@ export class DatabaseStorage implements IStorage {
 
   async createBlogPost(insertPost: InsertBlogPost): Promise<BlogPost> {
     const { db } = await import("./db.js");
-    const { blogPosts } = await import('@shared/schema');
+    const { blogPosts } = await import('../shared/schema.js');
     
     const [post] = await db
       .insert(blogPosts)
@@ -141,7 +141,7 @@ export class DatabaseStorage implements IStorage {
 
   async createConsultation(insertConsultation: InsertConsultation): Promise<Consultation> {
     const { db } = await import("./db.js");
-    const { consultations } = await import('@shared/schema');
+    const { consultations } = await import('../shared/schema.js');
     
     const [consultation] = await db
       .insert(consultations)
@@ -158,14 +158,14 @@ export class DatabaseStorage implements IStorage {
 
   async getConsultations(): Promise<Consultation[]> {
     const { db } = await import("./db.js");
-    const { consultations } = await import('@shared/schema');
+    const { consultations } = await import('../shared/schema.js');
     
     return await db.select().from(consultations);
   }
 
   async updateBlogPost(id: number, insertPost: Partial<InsertBlogPost>): Promise<BlogPost> {
     const { db } = await import('./db');
-    const { blogPosts } = await import('@shared/schema');
+    const { blogPosts } = await import('../shared/schema.js');
     const { eq } = await import('drizzle-orm');
     
     // Filter out undefined values to avoid "No values to set" error
@@ -187,7 +187,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteBlogPost(id: number): Promise<void> {
     const { db } = await import('./db');
-    const { blogPosts } = await import('@shared/schema');
+    const { blogPosts } = await import('../shared/schema.js');
     const { eq } = await import('drizzle-orm');
     
     await db.delete(blogPosts).where(eq(blogPosts.id, id));
@@ -196,7 +196,7 @@ export class DatabaseStorage implements IStorage {
   // Admin operations
   async getAdmin(id: number): Promise<Admin | undefined> {
     const { db } = await import('./db');
-    const { admins } = await import('@shared/schema');
+    const { admins } = await import('../shared/schema.js');
     const { eq } = await import('drizzle-orm');
     
     const [admin] = await db.select().from(admins).where(eq(admins.id, id));
@@ -205,7 +205,7 @@ export class DatabaseStorage implements IStorage {
 
   async getAdminByUsername(username: string): Promise<Admin | undefined> {
     const { db } = await import('./db');
-    const { admins } = await import('@shared/schema');
+    const { admins } = await import('../shared/schema.js');
     const { eq } = await import('drizzle-orm');
     
     const [admin] = await db.select().from(admins).where(eq(admins.username, username));
@@ -214,7 +214,7 @@ export class DatabaseStorage implements IStorage {
 
   async createAdmin(insertAdmin: InsertAdmin): Promise<Admin> {
     const { db } = await import('./db');
-    const { admins } = await import('@shared/schema');
+    const { admins } = await import('../shared/schema.js');
     
     const [admin] = await db.insert(admins).values(insertAdmin).returning();
     return admin;

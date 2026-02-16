@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage.js";
-import { insertContactSchema, insertConsultationSchema } from "@shared/schema";
+import { insertContactSchema, insertConsultationSchema } from "../shared/schema.js";
 import { z } from "zod";
 import { sanityFetch } from "./sanity.js";
 
