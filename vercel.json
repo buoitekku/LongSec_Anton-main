@@ -22,6 +22,14 @@
       "handle": "filesystem"
     },
     {
+      "src": "/static/(.*)",
+      "dest": "/studio/static/$1"
+    },
+    {
+      "src": "/vendor/(.*)",
+      "dest": "/studio/vendor/$1"
+    },
+    {
       "src": "/studio(?:/.*)?",
       "dest": "/studio/index.html"
     },
