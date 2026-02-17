@@ -45,6 +45,13 @@ export const siteSettingsType = defineType({
       options: {hotspot: true},
     }),
     defineField({
+      name: 'heroImageUrl',
+      title: 'Hero Image URL',
+      type: 'url',
+      description:
+        'Optional direct image URL. Used when Hero Image asset is not set.',
+    }),
+    defineField({
       name: 'contactPhone',
       title: 'Contact Phone',
       type: 'string',

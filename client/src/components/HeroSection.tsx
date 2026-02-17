@@ -41,9 +41,7 @@ export default function HeroSection({ language, clientType, onNavigate }: HeroSe
     (useLegacyHomeContent ? t(clientType === "B2B" ? "hero.subtitle.b2b" : "hero.subtitle.b2c") : "");
   const primaryCta = homePage?.heroPrimaryCta || (useLegacyHomeContent ? t("hero.cta.consultation") : "");
   const secondaryCta = homePage?.heroSecondaryCta || (useLegacyHomeContent ? t("hero.cta.cases") : "");
-  const heroImage =
-    siteSettings?.heroImageUrl ||
-    (isSiteSettingsFetched && !siteSettings ? fallbackHeroImage : undefined);
+  const heroImage = siteSettings?.heroImageUrl || fallbackHeroImage;
 
   return (
     <section className="pt-16 relative overflow-hidden min-h-screen flex items-center">
@@ -119,7 +117,7 @@ export default function HeroSection({ language, clientType, onNavigate }: HeroSe
             transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
             className="parallax-element"
           >
-            {heroImage ? <img src={heroImage} alt="Hero" className="rounded-2xl shadow-2xl w-full" /> : null}
+            <img src={heroImage} alt="Hero" className="rounded-2xl shadow-2xl w-full" />
           </motion.div>
         </div>
       </div>

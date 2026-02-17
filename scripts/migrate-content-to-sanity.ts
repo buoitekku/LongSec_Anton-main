@@ -52,6 +52,9 @@ const serviceKeys = [
   "datarecovery",
 ] as const;
 
+const defaultHeroImageUrl =
+  "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600";
+
 const serviceFeatures: Record<(typeof serviceKeys)[number], string[]> = {
   cybersecurity: [
     "services.cybersecurity.features.audit",
@@ -186,6 +189,7 @@ function buildSiteSettingsDocs() {
     language: lang,
     siteName: "LongSec",
     logoText: "LongSec",
+    heroImageUrl: defaultHeroImageUrl,
     contactPhone: "+48 22 123 4567",
     contactEmail: "kontakt@longsec.pl",
     contactAddress: "ul. Krakowskie Przedmiescie 5, 00-068 Warszawa",
