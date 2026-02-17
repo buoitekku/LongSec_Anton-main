@@ -41,7 +41,12 @@ export default function HeroSection({ language, clientType, onNavigate }: HeroSe
     (useLegacyHomeContent ? t(clientType === "B2B" ? "hero.subtitle.b2b" : "hero.subtitle.b2c") : "");
   const primaryCta = homePage?.heroPrimaryCta || (useLegacyHomeContent ? t("hero.cta.consultation") : "");
   const secondaryCta = homePage?.heroSecondaryCta || (useLegacyHomeContent ? t("hero.cta.cases") : "");
-  const heroImage = siteSettings?.heroImageUrl || fallbackHeroImage;
+  const heroImageFromCms =
+    typeof siteSettings?.heroImageUrl === "string"
+      ? siteSettings.heroImageUrl.trim()
+      : "";
+  const heroImage =
+    heroImageFromCms || (isSiteSettingsFetched ? fallbackHeroImage : undefined);
 
   return (
     <section className="pt-16 relative overflow-hidden min-h-screen flex items-center">
@@ -117,7 +122,11 @@ export default function HeroSection({ language, clientType, onNavigate }: HeroSe
             transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
             className="parallax-element"
           >
-            <img src={heroImage} alt="Hero" className="rounded-2xl shadow-2xl w-full" />
+            {heroImage ? (
+              <img src={heroImage} alt="Hero" className="rounded-2xl shadow-2xl w-full" />
+            ) : (
+              <div className="rounded-2xl shadow-2xl w-full aspect-[4/3] bg-white/10 dark:bg-white/5 animate-pulse" />
+            )}
           </motion.div>
         </div>
       </div>
