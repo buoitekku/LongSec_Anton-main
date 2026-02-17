@@ -697,15 +697,33 @@ export const translations = {
 };
 
 export function useTranslation(language: Language) {
-  const {data: cmsTranslations = {}} = useQuery<Record<string, string>>({
+  const {
+    data: cmsTranslations,
+    isPending: isCmsTranslationsPending,
+  } = useQuery<Record<string, string>>({
     queryKey: ["/api/cms/translations", language],
     queryFn: () => getTranslationMap(language),
   });
 
+  const resolveTranslation = (key: string): string | undefined => {
+    const cmsValue = cmsTranslations?.[key];
+    if (cmsValue !== undefined && cmsValue !== null && cmsValue !== "") {
+      return cmsValue;
+    }
+
+    // Avoid showing legacy fallback copy before CMS values load to prevent
+    // a visible "old text -> new text" flash on refresh.
+    if (isCmsTranslationsPending && !cmsTranslations) {
+      return undefined;
+    }
+
+    return (translations[language] as any)?.[key];
+  };
+
   return {
     t: (key: string) => {
       try {
-        const translation = cmsTranslations[key] ?? (translations[language] as any)?.[key];
+        const translation = resolveTranslation(key);
         if (translation) {
           return translation;
         }
@@ -719,7 +737,7 @@ export function useTranslation(language: Language) {
     },
     th: (key: string) => {
       try {
-        const translation = cmsTranslations[key] ?? (translations[language] as any)?.[key];
+        const translation = resolveTranslation(key);
         if (translation) {
           return { __html: translation };
         }
