@@ -16,23 +16,34 @@ const fallbackHeroImage =
 
 export default function HeroSection({ language, clientType, onNavigate }: HeroSectionProps) {
   const { t } = useTranslation(language);
-  const { data: homePage } = useQuery({
+  const {
+    data: homePage,
+    isFetched: isHomePageFetched,
+  } = useQuery({
     queryKey: ["/api/cms/home-page", language, clientType],
     queryFn: () => getHomePage(language, clientType),
   });
-  const { data: siteSettings } = useQuery({
+  const {
+    data: siteSettings,
+    isFetched: isSiteSettingsFetched,
+  } = useQuery({
     queryKey: ["/api/cms/site-settings", language, "hero"],
     queryFn: () => getSiteSettings(language),
   });
 
-  const badge = homePage?.heroBadge || t("hero.badge");
-  const title = homePage?.heroTitle || t(clientType === "B2B" ? "hero.title.b2b" : "hero.title.b2c");
+  const useLegacyHomeContent = isHomePageFetched && !homePage;
+  const badge = homePage?.heroBadge || (useLegacyHomeContent ? t("hero.badge") : "");
+  const title =
+    homePage?.heroTitle ||
+    (useLegacyHomeContent ? t(clientType === "B2B" ? "hero.title.b2b" : "hero.title.b2c") : "");
   const subtitle =
     homePage?.heroSubtitle ||
-    t(clientType === "B2B" ? "hero.subtitle.b2b" : "hero.subtitle.b2c");
-  const primaryCta = homePage?.heroPrimaryCta || t("hero.cta.consultation");
-  const secondaryCta = homePage?.heroSecondaryCta || t("hero.cta.cases");
-  const heroImage = siteSettings?.heroImageUrl || fallbackHeroImage;
+    (useLegacyHomeContent ? t(clientType === "B2B" ? "hero.subtitle.b2b" : "hero.subtitle.b2c") : "");
+  const primaryCta = homePage?.heroPrimaryCta || (useLegacyHomeContent ? t("hero.cta.consultation") : "");
+  const secondaryCta = homePage?.heroSecondaryCta || (useLegacyHomeContent ? t("hero.cta.cases") : "");
+  const heroImage =
+    siteSettings?.heroImageUrl ||
+    (isSiteSettingsFetched && !siteSettings ? fallbackHeroImage : undefined);
 
   return (
     <section className="pt-16 relative overflow-hidden min-h-screen flex items-center">
@@ -108,7 +119,7 @@ export default function HeroSection({ language, clientType, onNavigate }: HeroSe
             transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
             className="parallax-element"
           >
-            <img src={heroImage} alt="Hero" className="rounded-2xl shadow-2xl w-full" />
+            {heroImage ? <img src={heroImage} alt="Hero" className="rounded-2xl shadow-2xl w-full" /> : null}
           </motion.div>
         </div>
       </div>

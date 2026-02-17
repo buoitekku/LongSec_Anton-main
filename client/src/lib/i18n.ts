@@ -727,6 +727,10 @@ export function useTranslation(language: Language) {
         if (translation) {
           return translation;
         }
+
+        if (isCmsTranslationsPending && !cmsTranslations) {
+          return "";
+        }
         
         console.warn(`Translation key "${key}" not found for language "${language}"`);
         return key;
@@ -740,6 +744,10 @@ export function useTranslation(language: Language) {
         const translation = resolveTranslation(key);
         if (translation) {
           return { __html: translation };
+        }
+
+        if (isCmsTranslationsPending && !cmsTranslations) {
+          return { __html: "" };
         }
         
         console.warn(`Translation key "${key}" not found for language "${language}"`);

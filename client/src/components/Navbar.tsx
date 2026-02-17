@@ -27,7 +27,7 @@ export default function Navbar({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const { t } = useTranslation(language);
-  const { data: siteSettings } = useQuery({
+  const { data: siteSettings, isFetched: isSiteSettingsFetched } = useQuery({
     queryKey: ["/api/cms/site-settings", language, "navbar"],
     queryFn: () => getSiteSettings(language),
   });
@@ -47,7 +47,9 @@ export default function Navbar({
         key: item.serviceKey,
         icon: item.icon || "S",
       }))
-    : fallbackServices;
+    : isSiteSettingsFetched
+      ? fallbackServices
+      : [];
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
@@ -96,7 +98,7 @@ export default function Navbar({
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => onNavigate("home")}>
             <img src={logoPath} alt="LongSec Logo" className="w-10 h-10 object-contain logo-image" />
             <span className="text-xl font-bold text-primary dark:text-white">
-              {siteSettings?.logoText || "LongSec"}
+              {siteSettings?.logoText || (isSiteSettingsFetched ? "LongSec" : "")}
             </span>
           </div>
 

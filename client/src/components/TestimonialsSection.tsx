@@ -19,7 +19,7 @@ function initialsFor(author: string): string {
 
 export default function TestimonialsSection({language}: TestimonialsSectionProps) {
   const {t} = useTranslation(language);
-  const {data: testimonials = []} = useQuery<CmsTestimonial[]>({
+  const {data: testimonials = [], isFetched: isTestimonialsFetched} = useQuery<CmsTestimonial[]>({
     queryKey: ["/api/cms/testimonials", language],
     queryFn: () => getTestimonials(language),
   });
@@ -49,7 +49,8 @@ export default function TestimonialsSection({language}: TestimonialsSectionProps
     },
   ];
 
-  const testimonialItems = testimonials.length > 0 ? testimonials : legacyTestimonials;
+  const testimonialItems =
+    testimonials.length > 0 ? testimonials : isTestimonialsFetched ? legacyTestimonials : [];
 
   return (
     <>

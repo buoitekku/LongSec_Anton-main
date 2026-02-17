@@ -19,7 +19,7 @@ const iconMap = {
 
 export default function CaseStudiesSection({language, onNavigate}: CaseStudiesSectionProps) {
   const {t} = useTranslation(language);
-  const {data: caseStudies = []} = useQuery<CmsCaseStudy[]>({
+  const {data: caseStudies = [], isFetched: isCaseStudiesFetched} = useQuery<CmsCaseStudy[]>({
     queryKey: ["/api/cms/case-studies", language],
     queryFn: () => getCaseStudies(language),
   });
@@ -58,19 +58,20 @@ export default function CaseStudiesSection({language, onNavigate}: CaseStudiesSe
     },
   ];
 
-  const caseStudyItems =
-    caseStudiesSafe.length > 0
-      ? caseStudiesSafe.map((study) => ({
-          _id: study._id,
-          title: study.title,
-          category: study.category,
-          client: study.client,
-          description: portableTextToPlainText(study.description),
-          challenge: study.challenge,
-          solution: study.solution,
-          results: study.results,
-        }))
-      : legacyCaseStudies;
+  const caseStudyItems = caseStudiesSafe.length > 0
+    ? caseStudiesSafe.map((study) => ({
+        _id: study._id,
+        title: study.title,
+        category: study.category,
+        client: study.client,
+        description: portableTextToPlainText(study.description),
+        challenge: study.challenge,
+        solution: study.solution,
+        results: study.results,
+      }))
+    : isCaseStudiesFetched
+      ? legacyCaseStudies
+      : [];
 
   return (
     <>

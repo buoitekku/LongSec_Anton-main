@@ -22,7 +22,7 @@ const iconMap = {
 
 export default function ServicesPage({language, clientType, onNavigate}: ServicesPageProps) {
   const {t} = useTranslation(language);
-  const {data: services = []} = useQuery<CmsService[]>({
+  const {data: services = [], isFetched: isServicesFetched} = useQuery<CmsService[]>({
     queryKey: ["/api/cms/services", language, clientType, "full"],
     queryFn: () => getServices(language, clientType),
   });
@@ -100,16 +100,17 @@ export default function ServicesPage({language, clientType, onNavigate}: Service
     },
   ];
 
-  const serviceItems =
-    services.length > 0
-      ? services.map((service) => ({
-          id: service._id,
-          serviceKey: service.serviceKey,
-          name: service.name,
-          description: portableTextToPlainText(service.description),
-          features: service.features,
-        }))
-      : legacyServices;
+  const serviceItems = services.length > 0
+    ? services.map((service) => ({
+        id: service._id,
+        serviceKey: service.serviceKey,
+        name: service.name,
+        description: portableTextToPlainText(service.description),
+        features: service.features,
+      }))
+    : isServicesFetched
+      ? legacyServices
+      : [];
 
   return (
     <div className="min-h-screen relative">

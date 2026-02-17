@@ -23,7 +23,7 @@ const iconMap = {
 export default function ServicesGrid({language, clientType, onNavigate}: ServicesGridProps) {
   const {t} = useTranslation(language);
 
-  const {data: services = []} = useQuery<CmsService[]>({
+  const {data: services = [], isFetched: isServicesFetched} = useQuery<CmsService[]>({
     queryKey: ["/api/cms/services", language, clientType],
     queryFn: () => getServices(language, clientType),
   });
@@ -61,22 +61,23 @@ export default function ServicesGrid({language, clientType, onNavigate}: Service
     },
   ];
 
-  const serviceItems =
-    services.length > 0
-      ? services.map((service) => ({
-          _id: service._id,
-          serviceKey: service.serviceKey,
-          name: service.name,
-          description: portableTextToPlainText(service.description),
-          features: service.features,
-        }))
-      : legacyServices.map((service, index) => ({
+  const serviceItems = services.length > 0
+    ? services.map((service) => ({
+        _id: service._id,
+        serviceKey: service.serviceKey,
+        name: service.name,
+        description: portableTextToPlainText(service.description),
+        features: service.features,
+      }))
+    : isServicesFetched
+      ? legacyServices.map((service, index) => ({
           _id: `legacy-service-${index}`,
           serviceKey: service.serviceKey,
           name: service.name,
           description: service.description,
           features: service.features,
-        }));
+        }))
+      : [];
 
   return (
     <>
@@ -126,7 +127,7 @@ export default function ServicesGrid({language, clientType, onNavigate}: Service
           );
         })}
 
-        <AnimatedCard delay={services.length * 0.1}>
+        <AnimatedCard delay={serviceItems.length * 0.1}>
           <div className="bg-gradient-to-br from-[#264259] to-[#bd9775] text-white h-full backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-lg flex flex-col">
             <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center mb-6 border border-white/30">
               <Phone className="text-2xl w-8 h-8" />
