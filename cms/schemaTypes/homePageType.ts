@@ -3,7 +3,6 @@ import {defineField, defineType} from 'sanity'
 const languageOptions = [
   {title: 'Polish', value: 'pl'},
   {title: 'English', value: 'en'},
-  {title: 'Ukrainian', value: 'ua'},
 ]
 
 export const homePageType = defineType({
@@ -26,7 +25,7 @@ export const homePageType = defineType({
       options: {
         list: [
           {title: 'B2B', value: 'B2B'},
-          {title: 'B2C', value: 'B2C'},
+          {title: 'B2G', value: 'B2G'},
         ],
         layout: 'radio',
       },

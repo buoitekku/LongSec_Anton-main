@@ -25,7 +25,7 @@ export const contacts = pgTable("contacts", {
   phone: text("phone"),
   service: text("service").notNull(),
   message: text("message").notNull(),
-  clientType: text("client_type").notNull(), // B2B or B2C
+  clientType: text("client_type").notNull(), // B2B or B2G
   language: text("language").notNull().default("pl"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 
 interface ClientTypeSwitcherProps {
-  clientType: 'B2B' | 'B2C';
-  onClientTypeChange: (type: 'B2B' | 'B2C') => void;
+  clientType: 'B2B' | 'B2G';
+  onClientTypeChange: (type: 'B2B' | 'B2G') => void;
 }
 
 export default function ClientTypeSwitcher({ clientType, onClientTypeChange }: ClientTypeSwitcherProps) {
@@ -21,16 +21,16 @@ export default function ClientTypeSwitcher({ clientType, onClientTypeChange }: C
         B2B
       </Button>
       <Button
-        variant={clientType === 'B2C' ? "default" : "ghost"}
+        variant={clientType === 'B2G' ? "default" : "ghost"}
         size="sm"
-        onClick={() => onClientTypeChange('B2C')}
+        onClick={() => onClientTypeChange('B2G')}
         className={`px-3 py-1 text-sm font-medium rounded ${
-          clientType === 'B2C'
+          clientType === 'B2G'
             ? 'bg-primary text-white'
             : 'text-gray-600 dark:text-gray-300 hover:bg-[#bd9775] hover:text-[#ffffff] dark:hover:bg-[#bd9775] dark:hover:text-[#ffffff]'
         }`}
       >
-        B2C
+        B2G
       </Button>
     </div>
   );

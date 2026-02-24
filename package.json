@@ -9,6 +9,8 @@
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "check": "tsc",
     "cms:migrate": "tsx scripts/migrate-content-to-sanity.ts",
+    "cms:migrate:page": "tsx cms/scripts/migrate-page-content.ts",
+    "cms:cleanup": "tsx cms/scripts/cleanup-legacy-content.ts",
     "db:push": "drizzle-kit push",
     "vercel-build": "vite build && npm --prefix cms install && npm --prefix cms run build && node scripts/copy-cms.js"
   },

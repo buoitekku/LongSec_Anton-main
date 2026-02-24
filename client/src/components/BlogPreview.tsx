@@ -1,12 +1,13 @@
 import {useQuery} from "@tanstack/react-query";
 import {Button} from "@/components/ui/button";
-import {useTranslation, type Language} from "@/lib/i18n";
+import {type Language, useTranslation} from "@/lib/i18n";
 import AnimatedCard from "./AnimatedCard";
 import FadeInSection from "./FadeInSection";
-import {getBlogPosts, type CmsBlogPost} from "@/lib/cms";
+import {getBlogPosts, getPageContent, getSection, type ClientType, type CmsBlogPost} from "@/lib/cms";
 
 interface BlogPreviewProps {
   language: Language;
+  clientType: ClientType;
   onNavigate: (page: string) => void;
 }
 
@@ -23,8 +24,13 @@ const fallbackImageByCategory: Record<string, string> = {
     "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
 };
 
-export default function BlogPreview({language, onNavigate}: BlogPreviewProps) {
+export default function BlogPreview({language, clientType, onNavigate}: BlogPreviewProps) {
   const {t} = useTranslation(language);
+  const {data: pageContent} = useQuery({
+    queryKey: ["/api/cms/page-content", "home", language, clientType, "blog-preview"],
+    queryFn: () => getPageContent("home", language, clientType),
+  });
+  const section = getSection(pageContent?.sections, "blogPreviewSection");
 
   const {data: posts = [], isLoading} = useQuery<CmsBlogPost[]>({
     queryKey: ["/api/cms/blog", language],
@@ -53,16 +59,16 @@ export default function BlogPreview({language, onNavigate}: BlogPreviewProps) {
           <div className="flex justify-between items-end">
             <div>
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                {t("blog.title")}
+                {String(section?.title || t("blog.title"))}
               </h2>
-              <p className="text-lg text-gray-800 dark:text-gray-200">{t("blog.subtitle")}</p>
+              <p className="text-lg text-gray-800 dark:text-gray-200">{String(section?.subtitle || t("blog.subtitle"))}</p>
             </div>
             <Button
               size="sm"
               className="bg-[#264259] hover:bg-[#bd9775] text-white font-semibold px-6 py-2 text-base rounded-xl shadow-md transition-colors duration-200"
               onClick={() => onNavigate("blog")}
             >
-              {t("blog.viewall")}
+              {String(section?.viewAllLabel || t("blog.viewall"))}
             </Button>
           </div>
         </div>
@@ -90,7 +96,7 @@ export default function BlogPreview({language, onNavigate}: BlogPreviewProps) {
                     {post.category}
                   </span>
                   <span className="text-gray-600 dark:text-gray-400 text-xs">
-                    {new Date(post.publishedAt || post.createdAt || "").toLocaleDateString("pl-PL")}
+                    {new Date(post.publishedAt || post.createdAt || "").toLocaleDateString(language === "pl" ? "pl-PL" : "en-US")}
                   </span>
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 hover:text-[#bd9775] transition-colors">
@@ -116,7 +122,7 @@ export default function BlogPreview({language, onNavigate}: BlogPreviewProps) {
                       onNavigate(`blog/${post.slug}`);
                     }}
                   >
-                    {t("blog.readmore")}
+                    {String(section?.readMoreLabel || t("blog.readmore"))}
                   </Button>
                 </div>
               </div>

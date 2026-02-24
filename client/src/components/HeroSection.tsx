@@ -1,28 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { Calendar, Play } from "lucide-react";
-import { useTranslation, type Language } from "@/lib/i18n";
+import { Calendar, Play, ShieldCheck } from "lucide-react";
+import { type Language } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { getHomePage, getSiteSettings } from "@/lib/cms";
+import { getSiteSettings, type ClientType, type CmsPageSection } from "@/lib/cms";
 
 interface HeroSectionProps {
   language: Language;
-  clientType: "B2B" | "B2C";
+  clientType: ClientType;
   onNavigate: (page: string) => void;
+  content?: CmsPageSection;
 }
 
 const fallbackHeroImage =
   "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600";
 
-export default function HeroSection({ language, clientType, onNavigate }: HeroSectionProps) {
-  const { t } = useTranslation(language);
-  const {
-    data: homePage,
-    isFetched: isHomePageFetched,
-  } = useQuery({
-    queryKey: ["/api/cms/home-page", language, clientType],
-    queryFn: () => getHomePage(language, clientType),
-  });
+export default function HeroSection({ language, onNavigate, content }: HeroSectionProps) {
   const {
     data: siteSettings,
     isFetched: isSiteSettingsFetched,
@@ -31,16 +24,11 @@ export default function HeroSection({ language, clientType, onNavigate }: HeroSe
     queryFn: () => getSiteSettings(language),
   });
 
-  const useLegacyHomeContent = isHomePageFetched && !homePage;
-  const badge = homePage?.heroBadge || (useLegacyHomeContent ? t("hero.badge") : "");
-  const title =
-    homePage?.heroTitle ||
-    (useLegacyHomeContent ? t(clientType === "B2B" ? "hero.title.b2b" : "hero.title.b2c") : "");
-  const subtitle =
-    homePage?.heroSubtitle ||
-    (useLegacyHomeContent ? t(clientType === "B2B" ? "hero.subtitle.b2b" : "hero.subtitle.b2c") : "");
-  const primaryCta = homePage?.heroPrimaryCta || (useLegacyHomeContent ? t("hero.cta.consultation") : "");
-  const secondaryCta = homePage?.heroSecondaryCta || (useLegacyHomeContent ? t("hero.cta.cases") : "");
+  const badge = String(content?.badge || "");
+  const title = String(content?.title || "");
+  const subtitle = String(content?.subtitle || "");
+  const primaryCta = String(content?.primaryCta || "");
+  const secondaryCta = String(content?.secondaryCta || "");
   const heroImageFromCms =
     typeof siteSettings?.heroImageUrl === "string"
       ? siteSettings.heroImageUrl.trim()
@@ -64,7 +52,7 @@ export default function HeroSection({ language, clientType, onNavigate }: HeroSe
               transition={{ duration: 0.6, delay: 0.8 }}
               className="inline-flex items-center bg-accent/10 px-4 py-2 rounded-full text-sm font-medium mb-6 text-[#bd9775]"
             >
-              <span className="mr-2">S</span>
+              <ShieldCheck className="mr-2 h-4 w-4" />
               {badge}
             </motion.div>
             <motion.h1

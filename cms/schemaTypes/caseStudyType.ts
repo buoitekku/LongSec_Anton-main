@@ -11,7 +11,6 @@ const categoryOptions = [
 const languageOptions = [
   {title: 'Polish', value: 'pl'},
   {title: 'English', value: 'en'},
-  {title: 'Ukrainian', value: 'ua'},
 ]
 
 export const caseStudyType = defineType({

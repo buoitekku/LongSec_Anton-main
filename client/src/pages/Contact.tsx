@@ -1,19 +1,19 @@
 import ContactForm from "@/components/ContactForm";
-import CalendlyWidget from "@/components/CalendlyWidget";
 import { Card, CardContent } from "@/components/ui/card";
 import { Phone, Mail, MapPin, Clock, Users, Award } from "lucide-react";
-import { type Language } from "@/lib/i18n";
-import { useTranslation } from "@/lib/i18n";
+import { type Language, useTranslation } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import ParallaxBackground from "@/components/ParallaxBackground";
 import { useQuery } from "@tanstack/react-query";
-import { getSiteSettings } from "@/lib/cms";
+import { getPageContent, getSection, getSiteSettings, type ClientType } from "@/lib/cms";
 
 interface ContactProps {
   language: Language;
-  clientType: "B2B" | "B2C";
+  clientType: ClientType;
   onNavigate: (page: string) => void;
 }
+
+const iconMap = { users: Users, award: Award, clock: Clock } as const;
 
 export default function Contact({ language, clientType }: ContactProps) {
   const { t } = useTranslation(language);
@@ -21,39 +21,45 @@ export default function Contact({ language, clientType }: ContactProps) {
     queryKey: ["/api/cms/site-settings", language, "contact-page"],
     queryFn: () => getSiteSettings(language),
   });
+  const { data: pageContent } = useQuery({
+    queryKey: ["/api/cms/page-content", "contact", language],
+    queryFn: () => getPageContent("contact", language),
+  });
+
+  const header = getSection(pageContent?.sections, "contactHeaderSection");
+  const methodsSection = getSection(pageContent?.sections, "contactMethodsSection");
+  const featuresSection = getSection(pageContent?.sections, "contactFeaturesSection");
 
   const contactMethods = [
     {
       icon: Phone,
-      title: t("contact.method.phone"),
-      value: siteSettings?.contactPhone || "+48 22 123 4567",
-      description: t("contact.hours.description"),
+      title: String(methodsSection?.phoneLabel || t("contact.method.phone")),
+      value: siteSettings?.contactPhone || "",
+      description: String(methodsSection?.hoursDescription || t("contact.hours.description")),
     },
     {
       icon: Mail,
-      title: t("contact.method.email"),
-      value: siteSettings?.contactEmail || "kontakt@longsec.pl",
-      description: t("contact.email.description"),
+      title: String(methodsSection?.emailLabel || t("contact.method.email")),
+      value: siteSettings?.contactEmail || "",
+      description: String(methodsSection?.emailDescription || t("contact.email.description")),
     },
     {
       icon: MapPin,
-      title: t("contact.method.address"),
-      value: siteSettings?.contactAddress || "ul. Krakowskie Przedmiescie 5, 00-068 Warszawa",
-      description: t("contact.address.description"),
+      title: String(methodsSection?.addressLabel || t("contact.method.address")),
+      value: siteSettings?.contactAddress || "",
+      description: String(methodsSection?.addressDescription || t("contact.address.description")),
     },
     {
       icon: Clock,
-      title: t("contact.method.hours"),
-      value: t("contact.hours.value"),
-      description: t("contact.hours.time"),
+      title: String(methodsSection?.hoursLabel || t("contact.method.hours")),
+      value: String(methodsSection?.hoursValue || t("contact.hours.value")),
+      description: String(methodsSection?.hoursTime || t("contact.hours.time")),
     },
   ];
 
-  const features = [
-    { icon: Users, title: t("contact.team.title"), description: t("contact.team.description") },
-    { icon: Award, title: t("contact.quality.title"), description: t("contact.quality.description") },
-    { icon: Clock, title: t("contact.speed.title"), description: t("contact.speed.description") },
-  ];
+  const features = Array.isArray(featuresSection?.items)
+    ? (featuresSection.items as Array<{icon?: string; title?: string; description?: string}>)
+    : [];
 
   return (
     <div className="min-h-screen relative">
@@ -73,7 +79,7 @@ export default function Contact({ language, clientType }: ContactProps) {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-4xl lg:text-6xl font-bold mb-6 text-gray-900 dark:text-white"
               >
-                {t("contact.title")}
+                {String(header?.title || t("contact.title"))}
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -81,22 +87,8 @@ export default function Contact({ language, clientType }: ContactProps) {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-xl text-gray-800 dark:text-gray-200 max-w-3xl mx-auto"
               >
-                {t("contact.subtitle")}
+                {String(header?.subtitle || t("contact.subtitle"))}
               </motion.p>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white/10 dark:bg-gray-800/20 backdrop-blur-xl rounded-[2rem] p-8 lg:p-12 shadow-xl border border-white/30 dark:border-gray-700/30">
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }}>
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900 dark:text-white">{t("calendly.title")}</h2>
-                  <p className="text-xl text-gray-800 dark:text-gray-200 max-w-3xl mx-auto">{t("calendly.description")}</p>
-                </div>
-                <CalendlyWidget language={language} calendlyUrl={siteSettings?.calendlyUrl} />
-              </motion.div>
             </div>
           </div>
         </section>
@@ -106,8 +98,8 @@ export default function Contact({ language, clientType }: ContactProps) {
             <div className="bg-white/10 dark:bg-gray-800/20 backdrop-blur-xl rounded-[2rem] p-8 lg:p-12 shadow-xl border border-white/30 dark:border-gray-700/30">
               <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.8 }}>
                 <div className="text-center mb-16">
-                  <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">{t("contact.methods.title")}</h2>
-                  <p className="text-xl text-gray-800 dark:text-gray-200">{t("contact.methods.subtitle")}</p>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">{String(methodsSection?.title || t("contact.methods.title"))}</h2>
+                  <p className="text-xl text-gray-800 dark:text-gray-200">{String(methodsSection?.subtitle || t("contact.methods.subtitle"))}</p>
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
@@ -132,14 +124,15 @@ export default function Contact({ language, clientType }: ContactProps) {
 
                 <div className="grid lg:grid-cols-3 gap-8">
                   {features.map((feature, index) => {
-                    const Icon = feature.icon;
+                    const key = String(feature.icon || "clock") as keyof typeof iconMap;
+                    const Icon = iconMap[key] || Clock;
                     return (
                       <motion.div key={index} className="text-center" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.4 + index * 0.15 }}>
                         <div className="w-20 h-20 bg-gradient-to-br from-[#d4af37] to-[#264259] rounded-xl mx-auto mb-4 flex items-center justify-center">
                           <Icon className="text-white w-10 h-10" />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
-                        <p className="text-gray-800 dark:text-gray-200 text-lg">{feature.description}</p>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{String(feature.title || "")}</h3>
+                        <p className="text-gray-800 dark:text-gray-200 text-lg">{String(feature.description || "")}</p>
                       </motion.div>
                     );
                   })}
@@ -162,4 +155,3 @@ export default function Contact({ language, clientType }: ContactProps) {
     </div>
   );
 }
-

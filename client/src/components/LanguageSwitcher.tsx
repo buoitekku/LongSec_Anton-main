@@ -9,7 +9,7 @@ export default function LanguageSwitcher({ currentLanguage, onLanguageChange }: 
   const languages = [
     { code: 'pl', label: 'PL' },
     { code: 'en', label: 'EN' },
-    { code: 'ua', label: 'UA' }
+    
   ];
 
   return (

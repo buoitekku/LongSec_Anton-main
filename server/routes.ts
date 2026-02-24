@@ -33,10 +33,8 @@ interface CmsSiteSettings {
   contactPhone: string;
   contactEmail: string;
   contactAddress: string;
-  calendlyUrl?: string;
   serviceNavItems?: Array<{ serviceKey: string; icon?: string }>;
   socialLinks?: Array<{ label?: string; url?: string; icon?: string }>;
-  certifications?: Array<{ short?: string; full?: string }>;
 }
 
 interface CmsHomePage {
@@ -48,6 +46,14 @@ interface CmsHomePage {
   heroSubtitle: string;
   heroPrimaryCta: string;
   heroSecondaryCta: string;
+}
+
+interface CmsPageContent {
+  _id: string;
+  pageKey: string;
+  language: string;
+  clientType?: string;
+  sections: Array<Record<string, unknown>>;
 }
 
 export function attachRoutes(app: Express): void {
@@ -65,10 +71,8 @@ export function attachRoutes(app: Express): void {
           contactPhone,
           contactEmail,
           contactAddress,
-          calendlyUrl,
           serviceNavItems,
-          socialLinks,
-          certifications
+          socialLinks
         }`,
         { lang: language },
       );
@@ -84,10 +88,8 @@ export function attachRoutes(app: Express): void {
             contactPhone,
             contactEmail,
             contactAddress,
-            calendlyUrl,
             serviceNavItems,
-            socialLinks,
-            certifications
+            socialLinks
           }`,
         );
       }
@@ -100,16 +102,14 @@ export function attachRoutes(app: Express): void {
           logoText: "LongSec",
           contactPhone: "+48 22 123 4567",
           contactEmail: "kontakt@longsec.pl",
-          contactAddress: "ul. Krakowskie Przedmiescie 5, 00-068 Warszawa",
+          contactAddress: "ul. Krakowskie Przedmieście 5, 00-068 Warszawa",
           serviceNavItems: [
-            { serviceKey: "cybersecurity", icon: "🔐" },
-            { serviceKey: "translations", icon: "🌐" },
-            { serviceKey: "training", icon: "🎓" },
+            { serviceKey: "physicalsecurity", icon: "🔐" },
+            { serviceKey: "phishing", icon: "🎯" },
+            { serviceKey: "cyberawareness", icon: "🎓" },
             { serviceKey: "osint", icon: "🔎" },
-            { serviceKey: "datarecovery", icon: "💾" },
           ],
           socialLinks: [],
-          certifications: [],
         });
       }
 
@@ -139,6 +139,44 @@ export function attachRoutes(app: Express): void {
     } catch (error) {
       console.error("Failed to fetch CMS translations:", error);
       res.status(500).json({ error: "Failed to fetch CMS translations" });
+    }
+  });
+
+  // CMS: page content by page + language + optional client type
+  app.get("/api/cms/page-content", async (req, res) => {
+    try {
+      const pageKey = (req.query.page as string) || "home";
+      const language = (req.query.lang as string) || "pl";
+      const clientType = req.query.clientType as string | undefined;
+
+      let page = await sanityFetch<CmsPageContent | null>(
+        `*[_type == "pageContent" && pageKey == $page && language == $lang && (!defined(clientType) || clientType == $clientType)][0]{
+          _id,
+          pageKey,
+          language,
+          clientType,
+          sections
+        }`,
+        { page: pageKey, lang: language, clientType: clientType || null },
+      );
+
+      if (!page) {
+        page = await sanityFetch<CmsPageContent | null>(
+          `*[_type == "pageContent" && pageKey == $page && (!defined(clientType) || clientType == $clientType)][0]{
+            _id,
+            pageKey,
+            language,
+            clientType,
+            sections
+          }`,
+          { page: pageKey, clientType: clientType || null },
+        );
+      }
+
+      res.json(page || null);
+    } catch (error) {
+      console.error("Failed to fetch CMS page content:", error);
+      res.status(500).json({ error: "Failed to fetch CMS page content" });
     }
   });
 
@@ -327,6 +365,7 @@ export function attachRoutes(app: Express): void {
           _id,
           name,
           serviceKey,
+          icon,
           language,
           clientType,
           description,
@@ -369,30 +408,6 @@ export function attachRoutes(app: Express): void {
     } catch (error) {
       console.error("Failed to fetch CMS case studies:", error);
       res.status(500).json({ error: "Failed to fetch CMS case studies" });
-    }
-  });
-
-  // CMS: testimonials
-  app.get("/api/cms/testimonials", async (req, res) => {
-    try {
-      const language = (req.query.lang as string) || "pl";
-      const testimonials = await sanityFetch(
-        `*[_type == "testimonial" && language == $lang] | order(order asc){
-          _id,
-          quote,
-          author,
-          position,
-          language,
-          rating,
-          featured,
-          order
-        }`,
-        { lang: language },
-      );
-      res.json(testimonials);
-    } catch (error) {
-      console.error("Failed to fetch CMS testimonials:", error);
-      res.status(500).json({ error: "Failed to fetch CMS testimonials" });
     }
   });
 
@@ -482,3 +497,4 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
   return httpServer;
 }
+

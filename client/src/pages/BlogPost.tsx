@@ -4,8 +4,8 @@ import {Button} from "@/components/ui/button";
 import {Card, CardContent} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
 import {ArrowLeft, Calendar, User, Tag} from "lucide-react";
-import {useTranslation, type Language} from "@/lib/i18n";
-import {getBlogPost, portableTextToPlainText, type CmsBlogPost} from "@/lib/cms";
+import {type Language, useTranslation} from "@/lib/i18n";
+import {getBlogPost, getPageContent, getSection, portableTextToPlainText, type CmsBlogPost} from "@/lib/cms";
 
 interface BlogPostPageProps {
   language: Language;
@@ -40,6 +40,14 @@ export default function BlogPostPage({language, onNavigate}: BlogPostPageProps) 
   const {t} = useTranslation(language);
   const {slug} = useParams();
 
+  const {data: pageContent} = useQuery({
+    queryKey: ["/api/cms/page-content", "blogPost", language],
+    queryFn: () => getPageContent("blogPost", language),
+  });
+  const metaSection = getSection(pageContent?.sections, "blogPostMetaSection");
+  const loadingState = getSection(pageContent?.sections, "loadingStateSection");
+  const notFoundState = getSection(pageContent?.sections, "notFoundStateSection");
+
   const {data: post, isLoading} = useQuery<CmsBlogPost>({
     queryKey: ["/api/cms/blog", slug, language],
     queryFn: () => getBlogPost(slug || "", language),
@@ -59,6 +67,7 @@ export default function BlogPostPage({language, onNavigate}: BlogPostPageProps) 
                 <div key={i} className="h-4 bg-gray-200 dark:bg-gray-700 rounded" />
               ))}
             </div>
+            <p className="text-sm text-gray-500">{String(loadingState?.label || "")}</p>
           </div>
         </div>
       </div>
@@ -71,11 +80,12 @@ export default function BlogPostPage({language, onNavigate}: BlogPostPageProps) 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              {t("blog.notFound")}
+              {String(notFoundState?.title || t("blog.notFound"))}
             </h1>
+            <p className="text-gray-500 mb-6">{String(notFoundState?.subtitle || "")}</p>
             <Button onClick={() => onNavigate("blog")} variant="outline">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              {t("common.back")}
+              {String(notFoundState?.backLabel || t("common.back"))}
             </Button>
           </div>
         </div>
@@ -91,13 +101,13 @@ export default function BlogPostPage({language, onNavigate}: BlogPostPageProps) 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Button onClick={() => onNavigate("blog")} variant="outline" className="mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            {t("common.back")}
+            {String(metaSection?.backLabel || t("common.back"))}
           </Button>
 
           <div className="mb-6">
             <Badge className={getCategoryColor(post.category)}>
               <Tag className="w-3 h-3 mr-1" />
-              {t("blog.category.prefix")} {t(`blog.category.${post.category}`)}
+              {String(metaSection?.categoryPrefix || t("blog.category.prefix"))} {t(`blog.category.${post.category}`)}
             </Badge>
           </div>
 
@@ -113,7 +123,7 @@ export default function BlogPostPage({language, onNavigate}: BlogPostPageProps) 
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               {new Date(post.publishedAt || post.createdAt || "").toLocaleDateString(
-                language === "pl" ? "pl-PL" : language === "en" ? "en-US" : "uk-UA",
+                language === "pl" ? "pl-PL" : "en-US",
               )}
             </div>
           </div>

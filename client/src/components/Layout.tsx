@@ -7,9 +7,9 @@ import { type Language } from "@/lib/i18n";
 interface LayoutProps {
   children: ReactNode;
   language: Language;
-  clientType: 'B2B' | 'B2C';
+  clientType: 'B2B' | 'B2G';
   onLanguageChange: (language: string) => void;
-  onClientTypeChange: (type: 'B2B' | 'B2C') => void;
+  onClientTypeChange: (type: 'B2B' | 'B2G') => void;
   onNavigate: (page: string) => void;
 }
 

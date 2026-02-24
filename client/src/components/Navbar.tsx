@@ -5,15 +5,15 @@ import { Button } from "@/components/ui/button";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ClientTypeSwitcher from "./ClientTypeSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
-import { useTranslation, type Language } from "@/lib/i18n";
+import { type Language, useTranslation } from "@/lib/i18n";
 import { useQuery } from "@tanstack/react-query";
-import { getSiteSettings } from "@/lib/cms";
+import { getPageContent, getSection, getServices, getSiteSettings, type ClientType } from "@/lib/cms";
 
 interface NavbarProps {
   language: Language;
-  clientType: "B2B" | "B2C";
+  clientType: ClientType;
   onLanguageChange: (language: string) => void;
-  onClientTypeChange: (type: "B2B" | "B2C") => void;
+  onClientTypeChange: (type: ClientType) => void;
   onNavigate: (page: string) => void;
 }
 
@@ -24,32 +24,77 @@ export default function Navbar({
   onClientTypeChange,
   onNavigate,
 }: NavbarProps) {
+  const iconTokenMap: Record<string, string> = {
+    S1: "🔐",
+    S2: "🎯",
+    S3: "🎓",
+    S4: "🔎",
+    S5: "🕵️",
+    S6: "💾",
+    S7: "🌐",
+  };
+  const resolveServiceIcon = (icon: string) => iconTokenMap[icon] || icon;
+
+  const { t } = useTranslation(language);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const { t } = useTranslation(language);
+  const { data: layoutContent } = useQuery({
+    queryKey: ["/api/cms/page-content", "layout", language],
+    queryFn: () => getPageContent("layout", language),
+  });
   const { data: siteSettings, isFetched: isSiteSettingsFetched } = useQuery({
     queryKey: ["/api/cms/site-settings", language, "navbar"],
     queryFn: () => getSiteSettings(language),
   });
+  const { data: serviceDocs = [] } = useQuery({
+    queryKey: ["/api/cms/services", language, clientType, "navbar"],
+    queryFn: () => getServices(language, clientType),
+  });
   const dropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const navbarSection = getSection(layoutContent?.sections, "navbarSection");
 
   const fallbackServices = [
-    { key: "cybersecurity", icon: "S1" },
-    { key: "translations", icon: "S2" },
-    { key: "training", icon: "S3" },
-    { key: "osint", icon: "S4" },
-    { key: "datarecovery", icon: "S5" },
+    ...(clientType === "B2B"
+      ? [
+          { key: "physicalsecurity", icon: "S1" },
+          { key: "phishing", icon: "S2" },
+          { key: "cyberawareness", icon: "S3" },
+          { key: "osint", icon: "S4" },
+        ]
+      : [
+          { key: "forensics", icon: "S1" },
+          { key: "datarecovery", icon: "S2" },
+          { key: "translations", icon: "S3" },
+        ]),
   ];
 
-  const services = siteSettings?.serviceNavItems?.length
+  const navItems = siteSettings?.serviceNavItems?.length
     ? siteSettings.serviceNavItems.map((item) => ({
         key: item.serviceKey,
         icon: item.icon || "S",
       }))
-    : isSiteSettingsFetched
-      ? fallbackServices
-      : [];
+    : fallbackServices;
+  const iconByServiceKey = new Map(navItems.map((item) => [item.key, item.icon || "S"]));
+  const services =
+    serviceDocs.length > 0
+      ? serviceDocs.map((service) => ({
+          key: service.serviceKey,
+          icon: service.icon || iconByServiceKey.get(service.serviceKey) || "S",
+          label: service.name,
+        }))
+      : isSiteSettingsFetched
+        ? fallbackServices.map((service) => ({
+            key: service.key,
+            icon: service.icon || "S",
+            label: t(`services.${service.key}.title`),
+          }))
+        : [];
+  const navHome = String(navbarSection?.homeLabel || t("nav.home"));
+  const navServices = String(navbarSection?.servicesLabel || t("nav.services"));
+  const navBlog = String(navbarSection?.blogLabel || t("nav.blog"));
+  const navContact = String(navbarSection?.contactLabel || t("nav.contact"));
+  const b2gServiceKeys = new Set(["forensics", "datarecovery", "translations"]);
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
@@ -66,13 +111,23 @@ export default function Navbar({
 
   const handleServiceClick = (serviceKey: string) => {
     setIsServicesOpen(false);
+    const targetClientType: ClientType = b2gServiceKeys.has(serviceKey) ? "B2G" : "B2B";
+    if (clientType !== targetClientType) {
+      onClientTypeChange(targetClientType);
+    }
+    const targetHash = `#service-${serviceKey}`;
+
+    if (window.location.pathname.startsWith("/services")) {
+      window.history.replaceState(null, "", `/services${targetHash}`);
+      window.dispatchEvent(new Event("hashchange"));
+      return;
+    }
+
     onNavigate("services");
-    setTimeout(() => {
-      const element = document.getElementById(`service-${serviceKey}`);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 100);
+    window.setTimeout(() => {
+      window.history.replaceState(null, "", `/services${targetHash}`);
+      window.dispatchEvent(new Event("hashchange"));
+    }, 120);
   };
 
   useEffect(() => {
@@ -104,7 +159,7 @@ export default function Navbar({
 
           <div className="hidden md:flex items-center space-x-8">
             <Button variant="ghost" onClick={() => onNavigate("home")} className="text-gray-700 dark:text-gray-200 hover:bg-[#bd9775] hover:text-[#ffffff] dark:hover:bg-[#bd9775] dark:hover:text-[#ffffff]">
-              {t("nav.home")}
+              {navHome}
             </Button>
 
             <div className="relative" ref={dropdownRef}>
@@ -118,7 +173,7 @@ export default function Navbar({
                   setIsServicesOpen(false);
                 }}
               >
-                {t("nav.services")}
+                {navServices}
                 <span className={`ml-1 text-xs transition-transform ${isServicesOpen ? "rotate-180" : ""}`}>v</span>
               </Button>
 
@@ -135,8 +190,8 @@ export default function Navbar({
                         className="w-full flex items-center justify-start text-left px-3 py-2 rounded hover:bg-[#bd9775] hover:text-[#ffffff] dark:hover:bg-[#bd9775] dark:hover:text-[#ffffff] text-gray-700 dark:text-gray-200 transition-colors"
                         onClick={() => handleServiceClick(service.key)}
                       >
-                        <span className="mr-3">{service.icon}</span>
-                        <span>{t(`services.${service.key}.title`)}</span>
+                        <span className="mr-3">{resolveServiceIcon(service.icon)}</span>
+                        <span>{service.label}</span>
                       </button>
                     ))}
                   </div>
@@ -145,10 +200,10 @@ export default function Navbar({
             </div>
 
             <Button variant="ghost" onClick={() => onNavigate("blog")} className="text-gray-700 dark:text-gray-200 hover:bg-[#bd9775] hover:text-[#ffffff] dark:hover:bg-[#bd9775] dark:hover:text-[#ffffff]">
-              {t("nav.blog")}
+              {navBlog}
             </Button>
             <Button variant="ghost" onClick={() => onNavigate("contact")} className="text-gray-700 dark:text-gray-200 hover:bg-[#bd9775] hover:text-[#ffffff] dark:hover:bg-[#bd9775] dark:hover:text-[#ffffff]">
-              {t("nav.contact")}
+              {navContact}
             </Button>
           </div>
 
@@ -179,7 +234,7 @@ export default function Navbar({
                   onNavigate("home");
                 }}
               >
-                {t("nav.home")}
+                {navHome}
               </Button>
 
               <div className="space-y-1">
@@ -191,7 +246,7 @@ export default function Navbar({
                     onNavigate("services");
                   }}
                 >
-                  {t("nav.services")}
+                  {navServices}
                 </Button>
                 <div className="pl-4 space-y-1">
                   {services.map((service) => (
@@ -203,8 +258,8 @@ export default function Navbar({
                         handleServiceClick(service.key);
                       }}
                     >
-                      <span className="mr-2">{service.icon}</span>
-                      <span>{t(`services.${service.key}.title`)}</span>
+                      <span className="mr-2">{resolveServiceIcon(service.icon)}</span>
+                      <span>{service.label}</span>
                     </button>
                   ))}
                 </div>
@@ -218,7 +273,7 @@ export default function Navbar({
                   onNavigate("blog");
                 }}
               >
-                {t("nav.blog")}
+                {navBlog}
               </Button>
               <Button
                 variant="ghost"
@@ -228,7 +283,7 @@ export default function Navbar({
                   onNavigate("contact");
                 }}
               >
-                {t("nav.contact")}
+                {navContact}
               </Button>
               <div className="pt-2 border-t border-gray-200 dark:border-gray-700 mt-2">
                 <div className="flex items-center justify-center">

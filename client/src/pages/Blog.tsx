@@ -5,10 +5,10 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 import {Card, CardContent} from "@/components/ui/card";
-import {useTranslation, type Language} from "@/lib/i18n";
+import {type Language, useTranslation} from "@/lib/i18n";
 import {useQuery} from "@tanstack/react-query";
 import ParallaxBackground from "@/components/ParallaxBackground";
-import {getBlogPosts, portableTextToPlainText, type CmsBlogPost} from "@/lib/cms";
+import {getBlogPosts, getPageContent, getSection, portableTextToPlainText, type CmsBlogPost} from "@/lib/cms";
 
 interface BlogPageProps {
   language: Language;
@@ -44,6 +44,15 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  const {data: contentPage} = useQuery({
+    queryKey: ["/api/cms/page-content", "blog", language],
+    queryFn: () => getPageContent("blog", language),
+  });
+
+  const controls = getSection(contentPage?.sections, "blogListControlsSection");
+  const emptyState = getSection(contentPage?.sections, "emptyStateSection");
+  const loadingState = getSection(contentPage?.sections, "loadingStateSection");
+
   const {data: posts = [], isLoading} = useQuery<CmsBlogPost[]>({
     queryKey: ["/api/cms/blog", language, "list"],
     queryFn: () => getBlogPosts(language),
@@ -68,7 +77,7 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
       <div className="pt-16 bg-white dark:bg-gray-900 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-300">{t("blog.loading")}</p>
+          <p className="text-gray-600 dark:text-gray-300">{String(loadingState?.label || t("blog.loading"))}</p>
         </div>
       </div>
     );
@@ -91,7 +100,7 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
                 transition={{duration: 0.8, delay: 0.2}}
                 className="text-4xl lg:text-6xl font-bold mb-6 text-gray-900 dark:text-white"
               >
-                {t("blog.title")}
+                {String(controls?.title || t("blog.title"))}
               </motion.h1>
               <motion.p
                 initial={{opacity: 0, y: 20}}
@@ -99,7 +108,7 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
                 transition={{duration: 0.8, delay: 0.4}}
                 className="text-xl text-gray-800 dark:text-gray-200 max-w-3xl mx-auto"
               >
-                {t("blog.subtitle")}
+                {String(controls?.subtitle || t("blog.subtitle"))}
               </motion.p>
             </div>
           </div>
@@ -118,7 +127,7 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
                     <Input
                       type="text"
-                      placeholder={t("blog.search.placeholder")}
+                      placeholder={String(controls?.searchPlaceholder || t("blog.search.placeholder"))}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/40 dark:bg-gray-700/40 backdrop-blur-sm border-white/30 dark:border-gray-600/30 text-gray-900 dark:text-gray-100"
@@ -136,7 +145,7 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
                           : "text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-[#264259] hover:text-white dark:hover:bg-[#264259] dark:hover:text-white"
                       }
                     >
-                      {t("blog.filter.all")}
+                      {String(controls?.allLabel || t("blog.filter.all"))}
                     </Button>
                     {categories.map((category) => (
                       <Button
@@ -171,9 +180,9 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
                 {filteredPosts.length === 0 ? (
                   <div className="text-center py-12">
                     <h3 className="text-2xl font-bold text-gray-600 dark:text-gray-300 mb-4">
-                      {t("blog.noresults.title")}
+                      {String(emptyState?.title || t("blog.noresults.title"))}
                     </h3>
-                    <p className="text-gray-500 dark:text-gray-400">{t("blog.noresults.subtitle")}</p>
+                    <p className="text-gray-500 dark:text-gray-400">{String(emptyState?.subtitle || t("blog.noresults.subtitle"))}</p>
                   </div>
                 ) : (
                   <div className="grid lg:grid-cols-3 gap-8">
@@ -200,7 +209,7 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
                           <CardContent className="p-6 flex flex-col flex-grow">
                             <div className="flex items-center gap-2 mb-3">
                               <Badge className={getCategoryColor(post.category)}>
-                                {t("blog.category.prefix")} {t(`blog.category.${post.category}`)}
+                                {String(controls?.categoryPrefix || t("blog.category.prefix"))} {t(`blog.category.${post.category}`)}
                               </Badge>
                             </div>
 
@@ -221,7 +230,7 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
                                 <div className="flex items-center">
                                   <Calendar className="w-4 h-4 mr-1" />
                                   {new Date(post.publishedAt || post.createdAt || "").toLocaleDateString(
-                                    "pl-PL",
+                                    language === "pl" ? "pl-PL" : "en-US",
                                   )}
                                 </div>
                               </div>
@@ -234,7 +243,7 @@ export default function BlogPage({language, onNavigate}: BlogPageProps) {
                                   onNavigate(`blog/${post.slug}`);
                                 }}
                               >
-                                {t("blog.readmore")}
+                                {String(controls?.readMoreLabel || t("blog.readmore"))}
                               </Button>
                             </div>
                           </CardContent>

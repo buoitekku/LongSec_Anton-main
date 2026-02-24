@@ -3,7 +3,6 @@ import {defineField, defineType} from 'sanity'
 const languageOptions = [
   {title: 'Polish', value: 'pl'},
   {title: 'English', value: 'en'},
-  {title: 'Ukrainian', value: 'ua'},
 ]
 
 export const i18nStringType = defineType({
