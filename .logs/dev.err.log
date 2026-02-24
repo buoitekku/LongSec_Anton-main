@@ -21,3 +21,243 @@ Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"d
     at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
     at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
+Failed to fetch CMS page content: Error: Sanity query failed (400): {"error":{"description":"param $clientType referenced, but not provided","end":118,"query":"*[_type == \"pageContent\" \u0026\u0026 pageKey == $page \u0026\u0026 language == $lang \u0026\u0026 (!defined(clientType) || clientType == $clientType)][0]{\n          _id,\n          pageKey,\n          language,\n          clientType,\n          sections\n        }","start":108,"type":"queryParseError"}}
+
+    at sanityFetch (D:\projekciki\LongSec_Anton-main-1\server\sanity.ts:49:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async <anonymous> (D:\projekciki\LongSec_Anton-main-1\server\routes.ts:152:18)
