@@ -1,4 +1,7 @@
 import type { Language } from "@/lib/i18n";
+import { translations } from "@/lib/i18n";
+
+export type ClientType = "B2B" | "B2G";
 
 export interface PortableTextSpan {
   _type?: string;
@@ -30,8 +33,9 @@ export interface CmsService {
   _id: string;
   name: string;
   serviceKey: string;
+  icon?: string;
   language: Language | string;
-  clientType: "B2B" | "B2C";
+  clientType: ClientType;
   description: PortableTextBlock[];
   features: string[];
   order: number;
@@ -53,17 +57,6 @@ export interface CmsCaseStudy {
   published: boolean;
 }
 
-export interface CmsTestimonial {
-  _id: string;
-  quote: string;
-  author: string;
-  position: string;
-  language: Language | string;
-  rating: number;
-  featured: boolean;
-  order: number;
-}
-
 export interface CmsSiteSettings {
   _id: string;
   language: Language | string;
@@ -73,21 +66,45 @@ export interface CmsSiteSettings {
   contactPhone: string;
   contactEmail: string;
   contactAddress: string;
-  calendlyUrl?: string;
   serviceNavItems?: Array<{serviceKey: string; icon?: string}>;
   socialLinks?: Array<{label?: string; url?: string; icon?: string}>;
-  certifications?: Array<{short?: string; full?: string}>;
 }
 
-export interface CmsHomePage {
+export type CmsSectionType =
+  | "heroSection"
+  | "trustStatsSection"
+  | "servicesIntroSection"
+  | "servicesListSection"
+  | "caseStudiesSection"
+  | "blogPreviewSection"
+  | "contactHeaderSection"
+  | "contactMethodsSection"
+  | "contactFeaturesSection"
+  | "contactFormSection"
+  | "ctaBandSection"
+  | "blogListControlsSection"
+  | "blogPostMetaSection"
+  | "navbarSection"
+  | "footerSection"
+  | "emptyStateSection"
+  | "loadingStateSection"
+  | "notFoundStateSection";
+
+export interface CmsSectionBase {
+  _type: CmsSectionType;
+  sectionId: string;
+  enabled?: boolean;
+  order?: number;
+}
+
+export type CmsPageSection = CmsSectionBase & Record<string, unknown>;
+
+export interface CmsPageContent {
   _id: string;
+  pageKey: "home" | "services" | "contact" | "blog" | "blogPost" | "notFound" | "layout" | string;
   language: Language | string;
-  clientType: "B2B" | "B2C" | string;
-  heroBadge: string;
-  heroTitle: string;
-  heroSubtitle: string;
-  heroPrimaryCta: string;
-  heroSecondaryCta: string;
+  clientType?: ClientType | string;
+  sections: CmsPageSection[];
 }
 
 async function getJson<T>(url: string): Promise<T> {
@@ -95,7 +112,117 @@ async function getJson<T>(url: string): Promise<T> {
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}`);
   }
-  return response.json();
+  const data = await response.json();
+  return sanitizeCmsData(data) as T;
+}
+
+const serviceDisplayNames: Record<Language, Record<string, string>> = {
+  pl: {
+    physicalsecurity: "Testy bezpieczeństwa fizycznego",
+    phishing: "Testy phishingowe",
+    cyberawareness: "Szkolenia cyber awareness",
+    osint: "OSINT - wywiad jawnoźródłowy",
+    forensics: "Informatyka śledcza",
+    datarecovery: "Odzyskiwanie danych",
+    translations: "Usługi tłumaczeniowe",
+  },
+  en: {
+    physicalsecurity: "Physical security tests",
+    phishing: "Phishing tests",
+    cyberawareness: "Cyber awareness training",
+    osint: "OSINT - open source intelligence",
+    forensics: "Digital forensics",
+    datarecovery: "Data recovery",
+    translations: "Translation services",
+  },
+};
+
+const serviceCatalogByClientType: Record<ClientType, string[]> = {
+  B2B: ["physicalsecurity", "phishing", "cyberawareness", "osint"],
+  B2G: ["forensics", "datarecovery", "translations"],
+};
+
+function buildPortableText(text: string): PortableTextBlock[] {
+  return [{ _type: "block", children: [{ _type: "span", text }] }];
+}
+
+function getLocalizedText(language: Language, key: string, fallback: string): string {
+  const langDict = translations[language] as Record<string, string> | undefined;
+  const plDict = translations.pl as Record<string, string> | undefined;
+  return langDict?.[key] || plDict?.[key] || fallback;
+}
+
+function ensureExpectedServices(
+  services: CmsService[],
+  language: Language,
+  clientType: ClientType,
+): CmsService[] {
+  const expectedKeys = serviceCatalogByClientType[clientType];
+  const serviceByKey = new Map<string, CmsService>();
+
+  for (const service of services) {
+    if (!expectedKeys.includes(service.serviceKey)) {
+      continue;
+    }
+    if (!serviceByKey.has(service.serviceKey)) {
+      serviceByKey.set(service.serviceKey, service);
+    }
+  }
+
+  const result = expectedKeys.map((serviceKey, index) => {
+    const existingService = serviceByKey.get(serviceKey);
+    if (existingService) {
+      return existingService;
+    }
+
+    return {
+      _id: `fallback-${language}-${clientType}-${serviceKey}`,
+      name: serviceDisplayNames[language]?.[serviceKey] || serviceKey,
+      serviceKey,
+      language,
+      clientType,
+      description: buildPortableText(
+        getLocalizedText(
+          language,
+          `services.${serviceKey}.description.${clientType.toLowerCase()}`,
+          "",
+        ),
+      ),
+      features: [0, 1, 2, 3]
+        .map((featureIndex) =>
+          getLocalizedText(language, `features.${serviceKey}.${featureIndex}`, ""),
+        )
+        .filter(Boolean),
+      order: index,
+      active: true,
+    } satisfies CmsService;
+  });
+
+  return result;
+}
+
+function normalizeCmsText(value: string): string {
+  return value
+    .replace(/&nbsp;|&#160;|&#xA0;/gi, " ")
+    .replace(/\u00a0/g, " ");
+}
+
+function sanitizeCmsData(value: unknown): unknown {
+  if (typeof value === "string") {
+    return normalizeCmsText(value);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => sanitizeCmsData(item));
+  }
+
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, nestedValue]) => [key, sanitizeCmsData(nestedValue)]),
+    );
+  }
+
+  return value;
 }
 
 export function portableTextToPlainText(blocks: unknown): string {
@@ -104,7 +231,7 @@ export function portableTextToPlainText(blocks: unknown): string {
   }
 
   if (typeof blocks === "string") {
-    return blocks.trim();
+    return normalizeCmsText(blocks).trim();
   }
 
   if (!Array.isArray(blocks)) {
@@ -117,10 +244,32 @@ export function portableTextToPlainText(blocks: unknown): string {
       if (!Array.isArray(children)) {
         return "";
       }
-      return children.map((span) => span?.text || "").join("");
+      return children.map((span) => normalizeCmsText(span?.text || "")).join("");
     })
     .join("\n\n")
     .trim();
+}
+
+export function sortSections<T extends CmsPageSection>(sections: T[] = []): T[] {
+  return [...sections]
+    .filter((section) => section && section.enabled !== false)
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
+}
+
+export function getSection<T extends CmsPageSection>(
+  sections: CmsPageSection[] | undefined,
+  type: CmsSectionType,
+): T | undefined {
+  return sections?.find((section) => section._type === type && section.enabled !== false) as T | undefined;
+}
+
+export function getPageContent(
+  page: CmsPageContent["pageKey"],
+  language: Language,
+  clientType?: ClientType,
+): Promise<CmsPageContent | null> {
+  const clientTypeQuery = clientType ? `&clientType=${clientType}` : "";
+  return getJson<CmsPageContent | null>(`/api/cms/page-content?page=${page}&lang=${language}${clientTypeQuery}`);
 }
 
 export function getBlogPosts(language: Language): Promise<CmsBlogPost[]> {
@@ -133,10 +282,17 @@ export function getBlogPost(slug: string, language: Language): Promise<CmsBlogPo
 
 export function getServices(
   language: Language,
-  clientType: "B2B" | "B2C",
+  clientType: ClientType,
 ): Promise<CmsService[]> {
   return getJson<CmsService[]>(
     `/api/cms/services?lang=${language}&clientType=${clientType}`,
+  ).then((services) =>
+    ensureExpectedServices(services, language, clientType)
+      .map((service) => ({
+        ...service,
+        name: serviceDisplayNames[language]?.[service.serviceKey] || service.name,
+      }))
+      .sort((a, b) => (a.order || 0) - (b.order || 0)),
   );
 }
 
@@ -144,23 +300,7 @@ export function getCaseStudies(language: Language): Promise<CmsCaseStudy[]> {
   return getJson<CmsCaseStudy[]>(`/api/cms/case-studies?lang=${language}`);
 }
 
-export function getTestimonials(language: Language): Promise<CmsTestimonial[]> {
-  return getJson<CmsTestimonial[]>(`/api/cms/testimonials?lang=${language}`);
-}
-
 export function getSiteSettings(language: Language): Promise<CmsSiteSettings> {
   return getJson<CmsSiteSettings>(`/api/cms/site-settings?lang=${language}`);
 }
 
-export function getTranslationMap(language: Language): Promise<Record<string, string>> {
-  return getJson<Record<string, string>>(`/api/cms/translations?lang=${language}`);
-}
-
-export function getHomePage(
-  language: Language,
-  clientType: "B2B" | "B2C",
-): Promise<CmsHomePage | null> {
-  return getJson<CmsHomePage | null>(
-    `/api/cms/home-page?lang=${language}&clientType=${clientType}`,
-  );
-}

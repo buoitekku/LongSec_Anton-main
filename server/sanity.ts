@@ -31,9 +31,9 @@ export async function sanityFetch<T>(
     Object.fromEntries(Object.entries(params).map(([key, value]) => [`$${key}`, value])),
     true,
   );
-  for (const [key, value] of paramSearch.entries()) {
+  paramSearch.forEach((value, key) => {
     search.set(key, value);
-  }
+  });
 
   const headers: Record<string, string> = {};
   if (SANITY_API_TOKEN) {

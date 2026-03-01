@@ -18,22 +18,24 @@ import { type Language } from "@/lib/i18n";
 function Router() {
   const [location, setLocation] = useLocation();
   const [language, setLanguage] = useState<Language>('pl');
-  const [clientType, setClientType] = useState<'B2B' | 'B2C'>('B2B');
+  const [clientType, setClientType] = useState<'B2B' | 'B2G'>('B2B');
 
   const handleNavigate = (page: string) => {
     const path = page === 'home' ? '/' : `/${page}`;
     setLocation(path);
-    // Smooth scroll with slight delay for animation
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
+    // Keep anchor navigation in control of its own scroll behavior.
+    if (!page.includes("#")) {
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
+    }
   };
 
   const handleLanguageChange = (lang: string) => {
     setLanguage(lang as Language);
   };
 
-  const handleClientTypeChange = (type: 'B2B' | 'B2C') => {
+  const handleClientTypeChange = (type: 'B2B' | 'B2G') => {
     setClientType(type);
   };
 
@@ -53,12 +55,24 @@ function Router() {
     >
       <PageTransition location={location}>
         <Switch>
-          <Route path="/" component={() => <Home {...pageProps} />} />
-          <Route path="/services" component={() => <Services {...pageProps} />} />
-          <Route path="/blog" component={() => <Blog language={language} onNavigate={handleNavigate} />} />
-          <Route path="/blog/:slug" component={() => <BlogPost language={language} onNavigate={handleNavigate} />} />
-          <Route path="/contact" component={() => <Contact {...pageProps} />} />
-          <Route component={NotFound} />
+          <Route path="/">
+            <Home {...pageProps} />
+          </Route>
+          <Route path="/services">
+            <Services {...pageProps} />
+          </Route>
+          <Route path="/blog">
+            <Blog language={language} onNavigate={handleNavigate} />
+          </Route>
+          <Route path="/blog/:slug">
+            <BlogPost language={language} onNavigate={handleNavigate} />
+          </Route>
+          <Route path="/contact">
+            <Contact {...pageProps} />
+          </Route>
+          <Route>
+            <NotFound language={language} />
+          </Route>
         </Switch>
       </PageTransition>
     </Layout>

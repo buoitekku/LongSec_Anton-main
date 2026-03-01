@@ -303,28 +303,6 @@ export class MemStorage implements IStorage {
         language: "en",
         published: true,
         createdAt: new Date()
-      },
-      {
-        title: "Топ 10 загроз кібербезпеки у 2025 році",
-        slug: "top-10-zahroz-kiberbezpeky-2025",
-        excerpt: "Дізнайтеся про найновіші тенденції в кібербезпеці та дізнайтеся, як захистити свою компанію від еволюціонуючих загроз...",
-        content: "Кібербезпека стає все більш важливим викликом для підприємств по всьому світу...",
-        category: "Cyberbezpieczeństwo",
-        author: "Іван Петренко",
-        language: "ua",
-        published: true,
-        createdAt: new Date()
-      },
-      {
-        title: "Як вибрати найкращі послуги ІТ-перекладу",
-        slug: "yak-vybraty-najkrashchi-posluhy-it-perekladu",
-        excerpt: "Комплексний посібник із спеціалізованих технічних перекладів. Дізнайтеся ключові критерії вибору правильного партнера...",
-        content: "Вибір правильного партнера для спеціалізованих перекладів є вирішальним рішенням...",
-        category: "Tłumaczenia", 
-        author: "Марія Коваленко",
-        language: "ua",
-        published: true,
-        createdAt: new Date()
       }
     ];
 

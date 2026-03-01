@@ -1,17 +1,28 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 const serviceKeyOptions = [
-  {title: 'Cybersecurity', value: 'cybersecurity'},
-  {title: 'Translations', value: 'translations'},
-  {title: 'Training', value: 'training'},
+  {title: 'Physical Security', value: 'physicalsecurity'},
+  {title: 'Phishing', value: 'phishing'},
+  {title: 'Cyber Awareness', value: 'cyberawareness'},
   {title: 'OSINT', value: 'osint'},
+  {title: 'Forensics', value: 'forensics'},
   {title: 'Data Recovery', value: 'datarecovery'},
+  {title: 'Translations', value: 'translations'},
+]
+
+const iconOptions = [
+  {title: '🔐 Kłódka', value: '🔐'},
+  {title: '🎯 Cel', value: '🎯'},
+  {title: '🎓 Szkolenia', value: '🎓'},
+  {title: '🔎 Lupa', value: '🔎'},
+  {title: '🕵️ Śledztwo', value: '🕵️'},
+  {title: '💾 Dysk', value: '💾'},
+  {title: '🌐 Glob', value: '🌐'},
 ]
 
 const languageOptions = [
   {title: 'Polish', value: 'pl'},
   {title: 'English', value: 'en'},
-  {title: 'Ukrainian', value: 'ua'},
 ]
 
 export const serviceType = defineType({
@@ -33,6 +44,13 @@ export const serviceType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'icon',
+      title: 'Icon',
+      type: 'string',
+      options: {list: iconOptions, layout: 'dropdown'},
+      description: 'Ikona usługi używana w nawigacji i sekcjach usług.',
+    }),
+    defineField({
       name: 'language',
       title: 'Language',
       type: 'string',
@@ -47,7 +65,7 @@ export const serviceType = defineType({
       options: {
         list: [
           {title: 'B2B', value: 'B2B'},
-          {title: 'B2C', value: 'B2C'},
+          {title: 'B2G', value: 'B2G'},
         ],
         layout: 'radio',
       },

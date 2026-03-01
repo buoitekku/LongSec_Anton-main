@@ -1,82 +1,88 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 const languageOptions = [
-  {title: 'Polish', value: 'pl'},
-  {title: 'English', value: 'en'},
-  {title: 'Ukrainian', value: 'ua'},
+  {title: 'Polski', value: 'pl'},
+  {title: 'Angielski', value: 'en'},
 ]
 
 const serviceKeyOptions = [
-  {title: 'Cybersecurity', value: 'cybersecurity'},
-  {title: 'Translations', value: 'translations'},
-  {title: 'Training', value: 'training'},
-  {title: 'OSINT', value: 'osint'},
-  {title: 'Data Recovery', value: 'datarecovery'},
+  {title: 'Testy bezpieczeństwa fizycznego', value: 'physicalsecurity'},
+  {title: 'Testy phishingowe', value: 'phishing'},
+  {title: 'Szkolenia cyber awareness', value: 'cyberawareness'},
+  {title: 'OSINT - wywiad jawnoźródłowy', value: 'osint'},
+  {title: 'Informatyka śledcza', value: 'forensics'},
+  {title: 'Odzyskiwanie danych', value: 'datarecovery'},
+  {title: 'Usługi tłumaczeniowe', value: 'translations'},
+]
+
+const serviceIconOptions = [
+  {title: '🔐 Kłódka', value: '🔐'},
+  {title: '🎯 Cel', value: '🎯'},
+  {title: '🎓 Szkolenia', value: '🎓'},
+  {title: '🔎 Lupa', value: '🔎'},
+  {title: '🕵️ Śledztwo', value: '🕵️'},
+  {title: '💾 Dysk', value: '💾'},
+  {title: '🌐 Glob', value: '🌐'},
 ]
 
 export const siteSettingsType = defineType({
   name: 'siteSettings',
-  title: 'Site Settings',
+  title: 'Ustawienia Globalne',
   type: 'document',
   fields: [
     defineField({
       name: 'language',
-      title: 'Language',
+      title: 'Język',
       type: 'string',
       options: {list: languageOptions, layout: 'radio'},
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'siteName',
-      title: 'Site Name',
+      title: 'Nazwa serwisu',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'logoText',
-      title: 'Logo Text',
+      title: 'Tekst logo',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'heroImage',
-      title: 'Hero Image',
+      title: 'Zdjęcie hero',
       type: 'image',
       options: {hotspot: true},
+      description: 'Opcjonalnie: obraz używany w sekcji hero.',
     }),
     defineField({
       name: 'heroImageUrl',
-      title: 'Hero Image URL',
+      title: 'URL obrazu hero',
       type: 'url',
-      description:
-        'Optional direct image URL. Used when Hero Image asset is not set.',
+      description: 'Fallback dla sekcji hero, gdy nie dodano assetu.',
     }),
     defineField({
       name: 'contactPhone',
-      title: 'Contact Phone',
+      title: 'Telefon kontaktowy',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'contactEmail',
-      title: 'Contact Email',
+      title: 'E-mail kontaktowy',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'contactAddress',
-      title: 'Contact Address',
+      title: 'Adres',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'calendlyUrl',
-      title: 'Calendly URL',
-      type: 'url',
-    }),
-    defineField({
       name: 'serviceNavItems',
-      title: 'Service Menu Items',
+      title: 'Pozycje menu usług',
       type: 'array',
       of: [
         defineArrayMember({
@@ -84,51 +90,39 @@ export const siteSettingsType = defineType({
           fields: [
             defineField({
               name: 'serviceKey',
-              title: 'Service Key',
+              title: 'Klucz usługi',
               type: 'string',
               options: {list: serviceKeyOptions},
               validation: (rule) => rule.required(),
             }),
             defineField({
               name: 'icon',
-              title: 'Icon',
+              title: 'Ikona',
               type: 'string',
-              description: 'Use emoji or short label, e.g. 🔐',
+              options: {list: serviceIconOptions},
+              description: 'Krótki symbol/emoji, np. 🔐.',
             }),
           ],
         }),
       ],
+      description: 'Elementy dropdownu usług w nawigacji.',
     }),
     defineField({
       name: 'socialLinks',
-      title: 'Social Links',
+      title: 'Linki społecznościowe',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'object',
           fields: [
-            defineField({name: 'label', title: 'Label', type: 'string'}),
+            defineField({name: 'label', title: 'Etykieta', type: 'string'}),
             defineField({name: 'url', title: 'URL', type: 'url'}),
             defineField({
               name: 'icon',
-              title: 'Icon Name',
+              title: 'Nazwa ikony',
               type: 'string',
               description: 'linkedin, twitter, facebook, github',
             }),
-          ],
-        }),
-      ],
-    }),
-    defineField({
-      name: 'certifications',
-      title: 'Certifications',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          fields: [
-            defineField({name: 'short', title: 'Short Label', type: 'string'}),
-            defineField({name: 'full', title: 'Full Label', type: 'string'}),
           ],
         }),
       ],
@@ -141,4 +135,3 @@ export const siteSettingsType = defineType({
     },
   },
 })
-

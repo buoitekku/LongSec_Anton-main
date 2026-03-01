@@ -1,8 +1,8 @@
 import { Linkedin, Twitter, Facebook, Github } from "lucide-react";
 import logoPath from "@assets/LOGO_1752411666711.png";
-import { useTranslation, type Language } from "@/lib/i18n";
+import { type Language } from "@/lib/i18n";
 import { useQuery } from "@tanstack/react-query";
-import { getSiteSettings } from "@/lib/cms";
+import { getPageContent, getSection, getServices, getSiteSettings } from "@/lib/cms";
 
 interface FooterProps {
   language: Language;
@@ -17,14 +17,27 @@ const socialIconMap = {
 } as const;
 
 export default function Footer({ language, onNavigate }: FooterProps) {
-  const { t, th } = useTranslation(language);
+  const { data: layoutContent } = useQuery({
+    queryKey: ["/api/cms/page-content", "layout", language],
+    queryFn: () => getPageContent("layout", language),
+  });
   const { data: siteSettings } = useQuery({
     queryKey: ["/api/cms/site-settings", language, "footer"],
     queryFn: () => getSiteSettings(language),
   });
+  const { data: servicesB2B = [] } = useQuery({
+    queryKey: ["/api/cms/services", language, "B2B", "footer"],
+    queryFn: () => getServices(language, "B2B"),
+  });
+  const { data: servicesB2G = [] } = useQuery({
+    queryKey: ["/api/cms/services", language, "B2G", "footer"],
+    queryFn: () => getServices(language, "B2G"),
+  });
 
   const socialLinks = siteSettings?.socialLinks || [];
-  const certifications = siteSettings?.certifications || [];
+  const footerSection = getSection(layoutContent?.sections, "footerSection");
+  const navbarSection = getSection(layoutContent?.sections, "navbarSection");
+  const footerServices = [...servicesB2B, ...servicesB2G];
 
   return (
     <footer className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-16 pb-8 border-t border-gray-200 dark:border-gray-700 relative z-20">
@@ -37,7 +50,9 @@ export default function Footer({ language, onNavigate }: FooterProps) {
                 {siteSettings?.logoText || "LongSec"}
               </span>
             </div>
-            <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md" dangerouslySetInnerHTML={th("footer.description")} />
+            <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+              {String(footerSection?.description || "")}
+            </p>
             <div className="flex space-x-4">
               {socialLinks.map((link, index) => {
                 const iconKey = (link.icon || "").toLowerCase() as keyof typeof socialIconMap;
@@ -59,44 +74,29 @@ export default function Footer({ language, onNavigate }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{t("footer.services")}</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{String(footerSection?.servicesTitle || "")}</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{t("services.cybersecurity.title")}</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{t("services.translations.title")}</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{t("services.training.title")}</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{t("services.osint.title")}</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{t("services.datarecovery.title")}</a></li>
+              {footerServices.map((service) => (
+                <li key={service._id}><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{service.name}</a></li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{t("footer.company")}</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{String(footerSection?.companyTitle || "")}</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors" onClick={() => onNavigate("home")}>{t("footer.aboutus")}</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors" onClick={() => onNavigate("blog")}>{t("nav.blog")}</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{t("footer.career")}</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors" onClick={() => onNavigate("contact")}>{t("nav.contact")}</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{t("footer.privacy")}</a></li>
+              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors" onClick={() => onNavigate("home")}>{String(footerSection?.aboutLabel || "")}</a></li>
+              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors" onClick={() => onNavigate("blog")}>{String(navbarSection?.blogLabel || "")}</a></li>
+              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{String(footerSection?.careerLabel || "")}</a></li>
+              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors" onClick={() => onNavigate("contact")}>{String(navbarSection?.contactLabel || "")}</a></li>
+              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">{String(footerSection?.privacyLabel || "")}</a></li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-500 dark:text-gray-400 mb-4 md:mb-0">{t("footer.copyright")}</div>
-            <div className="flex items-center space-x-6 text-gray-500">
-              <span className="text-sm">{t("footer.certifiedby")}</span>
-              {certifications.map((cert, idx) => (
-                <div key={`${cert.short || "cert"}-${idx}`} className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
-                    <span className="bg-gradient-to-r from-[#d4af37] to-[#264259] bg-clip-text text-transparent text-xs font-black">
-                      {cert.short || "C"}
-                    </span>
-                  </div>
-                  <span className="text-sm">{cert.full || cert.short || "-"}</span>
-                </div>
-              ))}
-            </div>
+            <div className="text-gray-500 dark:text-gray-400 mb-4 md:mb-0">{String(footerSection?.copyrightLabel || "")}</div>
           </div>
         </div>
       </div>
